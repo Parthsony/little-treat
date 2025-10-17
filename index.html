@@ -484,6 +484,84 @@
             border-radius: 6px;
             border-left: 4px solid #e17055;
         }
+
+        /* Analytics Popup Styles */
+        .analytics-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .analytics-popup {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 350px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .analytics-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff7675;
+            padding-bottom: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #636e72;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #00b894;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+            padding: 5px;
+        }
+
+        .close-btn:hover {
+            color: #ff7675;
+        }
+
+        .hidden-clickable {
+            cursor: pointer;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -499,7 +577,11 @@
         </header>
 
         <div class="special-offer">
-            <strong>🎉 Friday 17th October 2025</strong>
+            <strong>🎉 To your doorstep anywhere in Bopal, Shela</strong>
+        </div>
+
+        <div class="special-offer">
+            <strong>🎉 Friday 17th Oct evening, prebook your order</strong>
         </div>
 
         <section class="product-section">
@@ -558,14 +640,72 @@
             <div class="contact-info">
                 Contact us: <span class="contact-number">+91 7874914422</span>
             </div>
-            <div>Made with ❤️ by Little Treat Home Foods</div>
+            <div>Made with ❤️ by <span class="hidden-clickable" onclick="showAnalytics()">Little Treat Home Foods</span></div>
         </footer>
+    </div>
+
+    <!-- Analytics Popup -->
+    <div class="analytics-overlay" id="analyticsOverlay" onclick="hideAnalytics()">
+        <div class="analytics-popup" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="hideAnalytics()">&times;</button>
+            <div class="analytics-title">📊 Site Analytics</div>
+            <div class="stat-item">
+                <span class="stat-label">👥 Total Visitors:</span>
+                <span class="stat-value" id="visitorsCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">📱 Order Button Clicks:</span>
+                <span class="stat-value" id="orderClicksCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">📈 Conversion Rate:</span>
+                <span class="stat-value" id="conversionRate">0%</span>
+            </div>
+        </div>
     </div>
 
     <script>
         let quantity = 1;
         let selectedTime = null;
         const pricePerPiece = 30;
+
+        // Analytics tracking
+        let visitorsCount = parseInt(localStorage.getItem('vadapav_visitors') || '0');
+        let orderClicksCount = parseInt(localStorage.getItem('vadapav_order_clicks') || '0');
+
+        // Track visitor on page load
+        function trackVisitor() {
+            const lastVisit = localStorage.getItem('vadapav_last_visit');
+            const today = new Date().toDateString();
+            
+            if (lastVisit !== today) {
+                visitorsCount++;
+                localStorage.setItem('vadapav_visitors', visitorsCount.toString());
+                localStorage.setItem('vadapav_last_visit', today);
+            }
+        }
+
+        // Track order button clicks
+        function trackOrderClick() {
+            orderClicksCount++;
+            localStorage.setItem('vadapav_order_clicks', orderClicksCount.toString());
+        }
+
+        // Show analytics popup
+        function showAnalytics() {
+            document.getElementById('visitorsCount').textContent = visitorsCount;
+            document.getElementById('orderClicksCount').textContent = orderClicksCount;
+            
+            const conversionRate = visitorsCount > 0 ? ((orderClicksCount / visitorsCount) * 100).toFixed(1) : '0';
+            document.getElementById('conversionRate').textContent = conversionRate + '%';
+            
+            document.getElementById('analyticsOverlay').style.display = 'flex';
+        }
+
+        // Hide analytics popup
+        function hideAnalytics() {
+            document.getElementById('analyticsOverlay').style.display = 'none';
+        }
 
         // Generate time options for dropdown
         function generateTimeOptions() {
@@ -646,6 +786,9 @@
                 return;
             }
 
+            // Track order button click
+            trackOrderClick();
+
             const flatNumber = document.getElementById('flatNumber').value.trim();
             const apartmentName = document.getElementById('apartmentName').value.trim();
             const totalPrice = quantity * pricePerPiece;
@@ -675,6 +818,7 @@ Please confirm my order. Thank you! 😊`;
         document.addEventListener('DOMContentLoaded', function() {
             generateTimeOptions();
             updateQuantityDisplay();
+            trackVisitor(); // Track visitor on page load
         });
     </script>
 </body>
