@@ -203,7 +203,7 @@ Please confirm my order. Thank you! 😊`;
 
     // Use encodeURIComponent which properly handles UTF-8 emojis
     const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/917874914422?text=${encodedMessage}`;
+    const whatsappUrl = `https://wa.me/917710963036?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank');
 }
 
