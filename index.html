@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Treat Home Foods - Pre-book Your Order</title>
+    <title>Little Treat Home made foods - Pre-book Your Order</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -22,7 +22,7 @@
                     <span class="logo-icon">🍽️</span>
                     <div class="logo-text">
                         <h1 class="company-name">Little Treat</h1>
-                        <p class="logo-tagline">Home Foods | Bopal | Shela</p>
+                        <p class="logo-tagline">Home made foods | Bopal | Shela</p>
                     </div>
                 </div>
             </div>
@@ -65,13 +65,13 @@
             </div>
 
             <!-- Dabeli -->
-            <div class="product-card" style="display: none;">
+            <div class="product-card">
                 <div class="product-info">
-                    <div class="product-emoji">🌮</div>
+                    <img src="images/dabeli.jpeg" alt="Kutchi Dabeli" class="product-image">
                     <div class="product-details">
-                        <h2 class="product-title">Kutchi Dabeli</h2>
-                        <p class="product-description">Sweet & spicy potato filling with peanuts</p>
-                        <div class="price-display">₹35 Per Piece</div>
+                        <h2 class="product-title">Kutchi Dabeli Butter</h2>
+                        <p class="product-description">Real taste of kutchh made with amul butter</p>
+                        <div class="price-display">₹30 Per Piece</div>
                     </div>
                     <div class="quantity-controls">
                         <button class="quantity-btn" onclick="updateQuantity('dabeli', -1)">-</button>
@@ -115,85 +115,79 @@
                 </div>
             </div>
 
-            <!-- Farali Sabudana Vada -->
-            <div class="product-card">
+            <!-- Sitafal -->
+            <div class="product-card" style="display: none;">
                 <div class="product-info">
-                    <img src="images/Sabudana_vada.jpeg" alt="Farali Sabudana Vada" class="product-image">
+                    <img src="images/Custard_Apple.png" alt="Imported Custard Apple" class="product-image">
                     <div class="product-details">
-                        <h2 class="product-title">Farali Sabudana Vada</h2>
-                        <p class="product-description">Ekadashi Fast Special - Made with groundnut oil (4 pc per plate)</p>
-                        <div class="price-display">₹45</div>
+                        <h2 class="product-title">Sitafal</h2>
+                        <p class="product-description">Fresh imported custard apples. 85 Rs per Kg.</p>
+                        <div class="price-display"> <del>₹100</del> ₹85 / Kg</div>
                     </div>
                     <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="updateQuantity('sabudanavada', -1)">-</button>
-                        <div class="quantity-display" id="qty-sabudanavada">0</div>
-                        <button class="quantity-btn" onclick="updateQuantity('sabudanavada', 1)">+</button>
+                        <button class="quantity-btn" onclick="updateQuantity('custardapple', -1)">-</button>
+                        <div class="quantity-display" id="qty-custardapple">0</div>
+                        <button class="quantity-btn" onclick="updateQuantity('custardapple', 1)">+</button>
                     </div>
                 </div>
             </div>
 
-            <div class="order-section">
+            <!-- <div class="order-section">
                 <div class="order-row total-price">
                     <span>Total Amount:</span>
                     <span id="totalPrice">₹0</span>
                 </div>
-            </div>
+            </div> -->
 
             <button class="book-button center-button" onclick="proceedToAddress()" id="proceedBtn">
-                Proceed to Address <i class="fas fa-arrow-right"></i>
+                Proceed to Delivery & Review <i class="fas fa-arrow-right"></i>
             </button>
         </section>
 
-        <!-- Step 2: Address -->
+        <!-- Step 2: Delivery Information & Review -->
         <section class="product-section step" id="step2">
             <div class="order-section">
-                <h3 style="color: #2d3436; margin-bottom: 20px; text-align: center;">
-                    <i class="fas fa-map-marker-alt"></i> Delivery Information
-                </h3>
+                <!-- <h3 style="color: #2d3436; margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-map-marker-alt"></i> Delivery Information & Review
+                </h3> -->
 
-                <div class="form-group">
-                    <label class="form-label">🕐 Delivery Time (7:30 PM - 9:00 PM)</label>
-                    <select class="form-select" id="timeSelect" required>
-                        <option value="">Select delivery time</option>
-                    </select>
-                    <div class="error-message" id="timeError">Please select a delivery time</div>
-                </div>
-
+                <!-- Delivery Address -->
                 <div class="form-group">
                     <label class="form-label">📍 Delivery Address</label>
                     <div class="address-grid">
-                        <input type="text" class="form-input" id="flatNumber" placeholder="Flat Number" required>
-                        <input type="text" class="form-input" id="apartmentName" placeholder="Apartment Name" required>
+                        <input type="text" class="form-input" id="flatNumber" placeholder="Flat Number" required oninput="updateLiveReview()">
+                        <input type="text" class="form-input" id="apartmentName" placeholder="Apartment Name" required oninput="updateLiveReview()">
                     </div>
                     <div class="error-message" id="addressError">Please fill in both address fields</div>
                 </div>
-            </div>
 
-            <div class="nav-buttons">
-                <button class="btn-secondary" onclick="goToStep(1)">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <button class="btn-primary" onclick="proceedToConfirm()">
-                    Review Order <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- Step 3: Confirm -->
-        <section class="product-section step" id="step3">
-            <div class="order-section">
-                <h3 style="color: #2d3436; margin-bottom: 15px;">✅ Confirm Your Order</h3>
-                
-                <div id="finalOrderSummary"></div>
-
-                <div style="background: #fff8f0; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px solid #ffe6e0;">
-                    <strong style="color: #ff6348;">📍 Delivery Details:</strong>
-                    <div style="margin-top: 10px; color: #2d3436;">
-                        <div id="finalAddress" style="margin: 5px 0;"></div>
-                        <div id="finalTime" style="margin: 5px 0;"></div>
-                    </div>
+                <!-- Delivery Date & Time -->
+                <div class="form-group">
+                    <label class="form-label">📅 Delivery Date & Time - 12 Nov 2025 (Wednesday)</label>
+                    <select class="form-select" id="dateSelect" required onchange="updateLiveReview()">
+                        <option value="">Select delivery time (7:00 PM - 9:00 PM)</option>
+                        <option value="2025-11-12T19:00">7:00 PM</option>
+                        <option value="2025-11-12T19:30">7:30 PM</option>
+                        <option value="2025-11-12T20:00">8:00 PM</option>
+                        <option value="2025-11-12T20:30">8:30 PM</option>
+                        <option value="2025-11-12T21:00">9:00 PM</option>
+                    </select>
+                    <div class="error-message" id="dateError">Please select a delivery time</div>
                 </div>
 
+                <!-- Order Summary -->
+                <div id="liveOrderSummary" style="margin-bottom: 25px;"></div>
+
+                <!-- Live Review Section -->
+                <!-- <div id="liveReviewSection" style="background: #fff8f0; padding: 1.5rem; border-radius: 12px; margin-top: 20px; border: 2px solid #ffe6e0; display: none;">
+                    <strong style="color: #ff6348;">📋 Order Summary:</strong>
+                    <div style="margin-top: 10px; color: #2d3436;">
+                        <div id="reviewAddress" style="margin: 5px 0;"></div>
+                        <div id="reviewDate" style="margin: 5px 0;"></div>
+                    </div>
+                </div> -->
+
+                <!-- Total Price -->
                 <div class="order-row total-price" style="font-size: 1.5em; margin-top: 20px;">
                     <span>Total Amount:</span>
                     <span id="finalTotalPrice">₹0</span>
@@ -201,7 +195,7 @@
             </div>
 
             <div class="nav-buttons">
-                <button class="btn-secondary" onclick="goToStep(2)">
+                <button class="btn-secondary" onclick="goToStep(1)">
                     <i class="fas fa-arrow-left"></i> Back
                 </button>
                 <button class="book-button" onclick="bookOrder()">
@@ -214,7 +208,7 @@
             <div class="contact-info">
                 <i class="fas fa-phone-alt"></i> Contact us: <span class="contact-number">+91 7874914422</span>
             </div>
-            <div>Made with ❤️ by Little Treat Home Foods</div>
+            <div>Made with ❤️ by Little Treat Home made foods</div>
         </footer>
     </div>
 
